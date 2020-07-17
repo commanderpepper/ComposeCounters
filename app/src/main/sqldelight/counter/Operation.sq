@@ -1,0 +1,15 @@
+CREATE TABLE operation (
+    id INTEGER PRIMARY KEY,
+    operation TEXT NOT NULL
+);
+
+INSERT INTO operation (id, operation) VALUES (1, "ADD");
+INSERT INTO operation (id, operation) VALUES (2, "SUB");
+INSERT INTO operation (id, operation) VALUES (3, "MUL");
+INSERT INTO operation (id, operation) VALUES (4, "DIV");
+
+selectAllOperations:
+SELECT * FROM operation;
+
+getOperation:
+SELECT operation FROM operation WHERE id = (?);

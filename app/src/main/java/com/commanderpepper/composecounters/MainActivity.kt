@@ -7,6 +7,8 @@ import androidx.ui.core.setContent
 import androidx.ui.foundation.Text
 import androidx.ui.tooling.preview.Preview
 import com.commanderpepper.composecounters.ui.ComposeCountersTheme
+import com.squareup.sqldelight.android.AndroidSqliteDriver
+import com.squareup.sqldelight.db.SqlDriver
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,6 +18,8 @@ class MainActivity : AppCompatActivity() {
                 Greeting("Android")
             }
         }
+
+        val driver: SqlDriver = AndroidSqliteDriver(Database.Schema, this, "test.db")
     }
 }
 

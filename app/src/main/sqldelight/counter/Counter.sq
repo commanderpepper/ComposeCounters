@@ -1,0 +1,24 @@
+CREATE TABLE counter (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    value INTEGER NOT NULL DEFAULT 0,
+    parentId INTEGER,
+    threshold INTEGER NOT NULL DEFAULT 1,
+    delta INTEGER NOT NULL DEFAULT 1,
+    operationId INTEGER REFERENCES operation(id) NOT NULL DEFAULT 1,
+    name TEXT NOT NULL DEFAULT "counter"
+);
+
+insertValue:
+INSERT INTO counter (value) VALUES (?);
+
+insertCounter:
+INSERT INTO counter (value, parentId, threshold, delta, operationId, name) VALUES (?,?,?,?,?,?);
+
+selectAll:
+SELECT * FROM counter;
+
+getCounter:
+SELECT * FROM counter WHERE id = (?);
+
+getChildCounters:
+SELECT * FROM counter WHERE parentId = (?);
