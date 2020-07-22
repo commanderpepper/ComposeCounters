@@ -79,6 +79,18 @@ class DatabaseTest {
     }
 
     @Test
+    fun insert_many_counters_get_parent_counters(){
+        database.counterQueries.insertCounter(1L, null, 1L, 1L, 1L, "testA")
+        database.counterQueries.insertCounter(1L, null, 1L, 1L, 1L, "testD")
+        database.counterQueries.insertCounter(1L, 1L, 1L, 1L, 1L, "testB")
+        database.counterQueries.insertCounter(1L, 1L, 1L, 1L, 1L, "testC")
+        database.counterQueries.insertCounter(1L, 1L, 1L, 1L, 1L, "testE")
+
+        val parentCounters = database.counterQueries.getParentCounters().executeAsList()
+        Assert.assertEquals(2, parentCounters.size)
+    }
+
+    @Test
     fun check_operations() {
         val list = database.operationQueries.selectAllOperations().executeAsList()
         Assert.assertEquals(4, list.size)

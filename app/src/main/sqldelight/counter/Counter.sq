@@ -22,3 +22,12 @@ SELECT * FROM counter WHERE id = (?);
 
 getChildCounters:
 SELECT * FROM counter WHERE parentId = (?);
+
+getChildCountersCount:
+SELECT COUNT (*) FROM counter WHERE parentId = (?);
+
+getParentCounters:
+SELECT * FROM counter WHERE parentId IS NULL;
+
+deleteCounter:
+DELETE FROM counter WHERE id = (?);
