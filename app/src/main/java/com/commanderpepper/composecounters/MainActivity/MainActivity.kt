@@ -1,6 +1,8 @@
 package com.commanderpepper.composecounters.MainActivity
 
+import android.app.Application
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.Composable
 import androidx.compose.collectAsState
@@ -17,6 +19,7 @@ import androidx.ui.layout.padding
 import androidx.ui.material.Card
 import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.dp
+import com.commanderpepper.composecounters.App
 import com.commanderpepper.composecounters.Database
 import com.commanderpepper.composecounters.ui.ComposeCountersTheme
 import com.squareup.sqldelight.Query
@@ -26,16 +29,26 @@ import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import counter.Counter
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 import kotlin.reflect.KFunction1
 
 class MainActivity : AppCompatActivity() {
+
+    @Inject lateinit var counterViewModel: CounterViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        (applicationContext as App).applicationComponent.inject(this)
+
         val databaseCounter = "counter.db"
         val driver: SqlDriver = AndroidSqliteDriver(Database.Schema, this, databaseCounter)
         val database = Database(driver)
 
         val flow = database.counterQueries.getParentCounters().asFlow().mapToList()
+
+        val meow = counterViewModel.getChildCounterCount(1).value
+        Log.d("Test", "$meow")
 
         setContent {
             ComposeCountersTheme {
