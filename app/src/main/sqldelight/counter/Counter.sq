@@ -1,0 +1,46 @@
+-- id           - id of the counter
+-- value        - value of the counter
+-- parentId     - parent id of the counter, if null then the counter has no parent counter
+-- threshold    - next value to reach to inform the parent of a change
+-- delta        - value to change the counter by
+-- operationId  - id of the operation, 1 Add, 2 Sub, 3 Mul, 4 Div
+-- name         - name of the counter
+CREATE TABLE counter (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    value INTEGER NOT NULL DEFAULT 0,
+    parentId INTEGER,
+    threshold INTEGER NOT NULL DEFAULT 1,
+    delta INTEGER NOT NULL DEFAULT 1,
+    operationId INTEGER REFERENCES operation(id) NOT NULL DEFAULT 1,
+    name TEXT NOT NULL DEFAULT "counter"
+);
+
+insertValue:
+INSERT INTO counter (value) VALUES (?);
+
+updateCounter:
+INSERT INTO counter (id, threshold, value) VALUES (?, ?, ?);
+
+insertCounter:
+INSERT INTO counter (value, parentId, threshold, delta, operationId, name) VALUES (?,?,?,?,?,?);
+
+selectAll:
+SELECT * FROM counter;
+
+getCounter:
+SELECT * FROM counter WHERE id = (?);
+
+getChildCounters:
+SELECT * FROM counter WHERE parentId = (?);
+
+getChildCountersCount:
+SELECT COUNT (*) FROM counter WHERE parentId = (?);
+
+getParentCounters:
+SELECT * FROM counter WHERE parentId IS NULL;
+
+deleteCounter:
+DELETE FROM counter WHERE id = (?);
+
+insertThreshold:
+INSERT INTO counter (threshold) VALUES (?);
